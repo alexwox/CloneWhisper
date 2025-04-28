@@ -55,9 +55,16 @@ Give me a step by step implementation plan to get this started, with checklist a
 ## 6. Overlay Indicator UI
 
 - [x] Show overlay indicator in the main window when recording (pulsing dot)
+- [x] Modularize overlay logic: overlay window, overlay.ts, shared/ipc.ts
+- [x] Modularize main process: main.ts, window.ts, shortcuts.ts
+- [x] Remove old main.ts and run app from new main/main.ts
 - [ ] Create a frameless, always-on-top BrowserWindow (small circle or waveform)
+- [ ] **Overlay should appear above the active text field**
+- [ ] Implement dynamic overlay positioning and content (dot or message)
+- [ ] Technical challenge: Detecting globally active text field (may require native modules or accessibility APIs)
 - [ ] Show overlay only when recording (in a separate window)
-- [ ] Position it near current cursor or focused window
+- [ ] Position it near current cursor or focused window if no text field
+- [ ] Implement overlay React app (OverlayApp.tsx, index.tsx, overlay.css) to support dynamic content
 
 ## 7. Transcription Request
 
@@ -98,3 +105,14 @@ Give me a step by step implementation plan to get this started, with checklist a
 - [x] App.tsx now only wires together hooks, IPC, and UI components
 
 ⸻
+
+## Optional: Global Text Field Detection with macOS Accessibility API
+
+- Use a native macOS helper (Swift/Objective-C or Node native module) to access the Accessibility API.
+- Detect the globally focused application, window, and UI element (including text fields).
+- Get the screen coordinates of the focused element to position the overlay precisely.
+- Requires user to grant Accessibility permissions in System Preferences.
+- Communicate between Electron and the native helper via IPC or a Node native module.
+- This is how advanced tools (Raycast, Alfred, Hammerspoon) achieve global UI awareness.
+
+**Next recommended step:**
