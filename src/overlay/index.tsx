@@ -1,6 +1,11 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import OverlayApp from './OverlayApp';
+import './overlay.css';
 
-const root = createRoot(document.getElementById('root')!);
-root.render(<OverlayApp />);
+ReactDOM.render(
+  <React.StrictMode>
+    <OverlayApp />
+  </React.StrictMode>,
+  document.getElementById('root')
+);

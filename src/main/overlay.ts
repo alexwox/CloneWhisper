@@ -1,47 +1,63 @@
-import { BrowserWindow, ipcMain, app } from 'electron';
+import { BrowserWindow, ipcMain, screen } from 'electron';
 import * as path from 'path';
-import { SHOW_OVERLAY, HIDE_OVERLAY } from '../shared/ipc';
 
 let overlayWindow: BrowserWindow | null = null;
 
+const OVERLAY_SIZE = 100; // px
+const OVERLAY_OFFSET = 40; // px above cursor
+
 export function createOverlayWindow() {
-  if (overlayWindow) return overlayWindow;
+  if (overlayWindow) {
+    return overlayWindow;
+  }
+
   overlayWindow = new BrowserWindow({
-    width: 80,
-    height: 80,
+    width: OVERLAY_SIZE,
+    height: OVERLAY_SIZE,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
     hasShadow: false,
     resizable: false,
     skipTaskbar: true,
-    focusable: false, // click-through
+    focusable: false,
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
+      nodeIntegration: true,
+      contextIsolation: false,
     },
+    show: false, // Start hidden
   });
+
+  overlayWindow.setVisibleOnAllWorkspaces(true);
 
   if (process.env.NODE_ENV === 'development') {
     overlayWindow.loadURL('http://localhost:3001');
   } else {
-    overlayWindow.loadFile(path.join(app.getAppPath(), 'dist/overlay.html'));
+    overlayWindow.loadFile(path.join(__dirname, '../../dist/overlay.html'));
   }
-  overlayWindow.setIgnoreMouseEvents(true); // click-through
-  overlayWindow.hide();
+
+  overlayWindow.setIgnoreMouseEvents(true);
+
   return overlayWindow;
 }
 
-export function showOverlay() {
-  if (!overlayWindow) createOverlayWindow();
-  overlayWindow?.show();
-}
-
-export function hideOverlay() {
-  overlayWindow?.hide();
-}
-
 export function setupOverlayIPC() {
-  ipcMain.on(SHOW_OVERLAY, showOverlay);
-  ipcMain.on(HIDE_OVERLAY, hideOverlay);
+  ipcMain.on('recording-state', (_event, isRecording) => {
+    if (overlayWindow) {
+      overlayWindow.webContents.send('recording-state', isRecording);
+      if (isRecording) {
+        // Get cursor position
+        const { x, y } = screen.getCursorScreenPoint();
+        // Position overlay above cursor
+        overlayWindow.setPosition(
+          Math.round(x - OVERLAY_SIZE / 2),
+          Math.round(y - OVERLAY_SIZE - OVERLAY_OFFSET),
+          false
+        );
+        overlayWindow.show();
+      } else {
+        overlayWindow.hide();
+      }
+    }
+  });
 }

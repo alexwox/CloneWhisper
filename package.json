@@ -1,7 +1,7 @@
 {
   "name": "clonewhisper",
   "version": "1.0.0",
-  "main": "dist/main.js",
+  "main": "dist/main/main.js",
   "scripts": {
     "start": "npm run build && electron .",
     "build": "tsc && webpack --config webpack.config.js",

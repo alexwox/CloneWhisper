@@ -1,32 +1,35 @@
 .overlay-root {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background: transparent;
+  align-items: center;
+  pointer-events: none;
 }
 
-.overlay-dot {
-  width: 32px;
-  height: 32px;
-  background-color: #ff4444;
+.recording-button {
+  width: 100px;
+  height: 100px;
+  background-color: #ff0000;
   border-radius: 50%;
-  animation: overlay-pulse 1.2s infinite;
-  box-shadow: 0 0 16px 4px rgba(255, 68, 68, 0.5);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+  animation: pulse 1.5s infinite;
 }
 
-@keyframes overlay-pulse {
+@keyframes pulse {
   0% {
     transform: scale(1);
     opacity: 1;
   }
   50% {
-    transform: scale(1.3);
-    opacity: 0.7;
+    transform: scale(1.1);
+    opacity: 0.8;
   }
   100% {
     transform: scale(1);
     opacity: 1;
   }
-}
+} 

@@ -29,6 +29,11 @@ const App: React.FC = () => {
     };
   }, [isRecording, startRecording, stopRecording]);
 
+  // Send recording state to overlay
+  useEffect(() => {
+    ipcRenderer.send('recording-state', isRecording);
+  }, [isRecording]);
+
   // When audioBlob changes (recording stopped), trigger transcription
   useEffect(() => {
     if (audioBlob) {
@@ -40,7 +45,7 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>CloneWhisper</h1>
+        <h1>CloneWhisper 2.0</h1>
         <RecordingIndicator isRecording={isRecording} />
         <TranscriptionDisplay transcription={transcription} loading={loading} error={error} />
       </header>
