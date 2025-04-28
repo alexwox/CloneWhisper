@@ -6,7 +6,10 @@ export function registerGlobalShortcut(mainWindow: BrowserWindow) {
   const success = globalShortcut.register(accelerator, () => {
     console.log('Shortcut pressed - toggling recording');
     if (mainWindow) {
-      mainWindow.webContents.send('toggle-record');
+      mainWindow.blur();
+      setTimeout(() => {
+        mainWindow.webContents.send('toggle-record');
+      }, 100); // Give the blur a moment to take effect
     }
   });
 
