@@ -3,7 +3,7 @@ import * as path from 'path';
 
 let overlayWindow: BrowserWindow | null = null;
 
-const OVERLAY_SIZE = 100; // px
+const OVERLAY_SIZE = 36; // px (window size)
 const OVERLAY_OFFSET = 40; // px above cursor
 
 export function createOverlayWindow() {

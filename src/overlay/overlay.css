@@ -8,15 +8,21 @@
   justify-content: center;
   align-items: center;
   pointer-events: none;
+  z-index: 999999;
+  width: 100%;
+  height: 100%;
 }
 
 .recording-button {
-  width: 100px;
-  height: 100px;
-  background-color: #ff0000;
+  width: 24px;
+  height: 24px;
+  background: #ff4b4b;
   border-radius: 50%;
-  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-  animation: pulse 1.5s infinite;
+  border: 2px solid #fff;
+  animation: pulse 1.2s infinite cubic-bezier(0.4, 0, 0.6, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 @keyframes pulse {
@@ -25,8 +31,8 @@
     opacity: 1;
   }
   50% {
-    transform: scale(1.1);
-    opacity: 0.8;
+    transform: scale(1.12);
+    opacity: 0.92;
   }
   100% {
     transform: scale(1);
