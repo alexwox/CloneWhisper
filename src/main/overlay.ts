@@ -1,11 +1,6 @@
 import { BrowserWindow, ipcMain, app } from 'electron';
 import * as path from 'path';
-import {
-  SHOW_OVERLAY,
-  HIDE_OVERLAY,
-  SET_OVERLAY_CONTENT,
-  SET_OVERLAY_POSITION,
-} from '../shared/ipc';
+import { SHOW_OVERLAY, HIDE_OVERLAY } from '../shared/ipc';
 
 let overlayWindow: BrowserWindow | null = null;
 
@@ -49,16 +44,4 @@ export function hideOverlay() {
 export function setupOverlayIPC() {
   ipcMain.on(SHOW_OVERLAY, showOverlay);
   ipcMain.on(HIDE_OVERLAY, hideOverlay);
-
-  ipcMain.on(SET_OVERLAY_CONTENT, (_event, message: string | null) => {
-    if (overlayWindow) {
-      overlayWindow.webContents.send(SET_OVERLAY_CONTENT, message);
-    }
-  });
-
-  ipcMain.on(SET_OVERLAY_POSITION, (_event, pos: { x: number; y: number }) => {
-    if (overlayWindow && pos && typeof pos.x === 'number' && typeof pos.y === 'number') {
-      overlayWindow.setPosition(Math.round(pos.x), Math.round(pos.y));
-    }
-  });
 }
