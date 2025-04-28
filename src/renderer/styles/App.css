@@ -1,0 +1,32 @@
+.app {
+  text-align: center;
+  padding: 20px;
+}
+
+.recording-indicator {
+  background-color: #ff4444;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 20px;
+  animation: pulse 1.5s infinite;
+}
+
+.debug-info {
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.9em;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+} 

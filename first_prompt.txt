@@ -1,0 +1,15 @@
+I want to build a mac whisper clone called clonewhisper using: 
+- Electron
+- Elevenlabs api 
+
+Workflow (Mac): 
+- User presses and holds keybinding / shortcut
+- While holding, the app takes in microphone output (asks for permission if first time) 
+- Shows a small indicator over the active field that there is a recording (like mac whisperer)
+- If no active field: Show "No active field, copying to clipboard"
+
+In the future I want to add: 
+- In the electron app a textfield that takes a context string
+- This context is sent along with the microphone input to ElevenLabs API to improve the transcription
+
+Give me a step by step implementation plan to get this started, with checklist and labels what I need to do vs what Cursor can do for me. 
