@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
   mode: 'development',
@@ -37,6 +39,9 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: './src/renderer/index.html'
+    }),
+    new webpack.DefinePlugin({
+      'process.env.ELEVENLABS_API_KEY': JSON.stringify(process.env.ELEVENLABS_API_KEY)
     })
   ],
   devServer: {

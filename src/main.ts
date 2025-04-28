@@ -1,6 +1,5 @@
-import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
+import { app, BrowserWindow, globalShortcut } from 'electron';
 import * as path from 'path';
-import { getKeybinding } from './main/store/keybindings';
 
 let mainWindow: BrowserWindow | null = null;
 
