@@ -5,14 +5,11 @@ interface RecordingIndicatorProps {
 }
 
 const RecordingIndicator: React.FC<RecordingIndicatorProps> = ({ isRecording }) => (
-  <div className="recording-indicator">
+  <div className="recording-indicator-modern">
     {isRecording ? (
-      <div className="recording-active">
-        <span className="recording-dot"></span>
-        Recording...
-      </div>
+      <span className="recording-dot-modern" title="Recording" />
     ) : (
-      <div>Press Command + Control + 0 to record</div>
+      <span className="recording-dot-idle" title="Idle" />
     )}
   </div>
 );

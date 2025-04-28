@@ -46,15 +46,18 @@ export function setupOverlayIPC() {
     if (overlayWindow) {
       overlayWindow.webContents.send('recording-state', isRecording);
       if (isRecording) {
-        // Get cursor position
         const { x, y } = screen.getCursorScreenPoint();
-        // Position overlay above cursor
         overlayWindow.setPosition(
           Math.round(x - OVERLAY_SIZE / 2),
           Math.round(y - OVERLAY_SIZE - OVERLAY_OFFSET),
           false
         );
-        overlayWindow.show();
+        // show *without* activating
+        if (typeof overlayWindow.showInactive === 'function') {
+          overlayWindow.showInactive();
+        } else {
+          overlayWindow.show();
+        }
       } else {
         overlayWindow.hide();
       }

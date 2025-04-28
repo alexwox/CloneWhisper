@@ -41,7 +41,8 @@ const mainConfig = {
       template: './src/renderer/index.html'
     }),
     new webpack.DefinePlugin({
-      'process.env.ELEVENLABS_API_KEY': JSON.stringify(process.env.ELEVENLABS_API_KEY)
+      'process.env.ELEVENLABS_API_KEY': JSON.stringify(process.env.ELEVENLABS_API_KEY),
+      'process.env.OPENAI_API_KEY': JSON.stringify(process.env.OPENAI_API_KEY)
     })
   ],
   devServer: {

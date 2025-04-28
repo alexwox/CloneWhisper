@@ -12,18 +12,10 @@ const TranscriptionDisplay: React.FC<TranscriptionDisplayProps> = ({
   error,
 }) => (
   <div className="transcription">
-    {loading && <p>Transcribing...</p>}
-    {error && (
-      <>
-        <h3>Transcription:</h3>
-        <p style={{ color: 'red' }}>{error}</p>
-      </>
-    )}
-    {transcription && !error && (
-      <>
-        <h3>Transcription:</h3>
-        <p>{transcription}</p>
-      </>
+    {loading && <div className="transcription-loading">Transcribing…</div>}
+    {error && <div className="transcription-error">{error}</div>}
+    {transcription && !error && !loading && (
+      <div className="transcription-text">{transcription}</div>
     )}
   </div>
 );

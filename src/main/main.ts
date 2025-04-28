@@ -2,7 +2,6 @@ import { app, globalShortcut, BrowserWindow } from 'electron';
 import { createMainWindow } from './window';
 import { registerGlobalShortcut } from './shortcuts';
 import { createOverlayWindow, setupOverlayIPC } from './overlay';
-console.log('>>> THIS IS THE REAL src/main/main.ts');
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -12,7 +11,11 @@ app.whenReady().then(() => {
   const overlay = createOverlayWindow();
 
   // Make sure overlay is visible
-  overlay.show();
+  if (overlay.showInactive) {
+    overlay.showInactive();
+  } else {
+    overlay.show();
+  }
 
   setupOverlayIPC();
 

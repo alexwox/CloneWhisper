@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ipcRenderer } from 'electron';
 import './App.css';
 import { useAudioRecorder } from './hooks/useAudioRecorder';
 import { useTranscription } from './hooks/useTranscription';
 import RecordingIndicator from './components/RecordingIndicator';
 import TranscriptionDisplay from './components/TranscriptionDisplay';
-
-const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1/speech-to-text';
-
-console.log('ELEVENLABS_API_KEY:', process.env.ELEVENLABS_API_KEY); // Debug: log API key
+import ContextInput from './components/ContextInput';
+import RecordButton from './components/RecordButton';
 
 const App: React.FC = () => {
   const { isRecording, startRecording, stopRecording, audioBlob } = useAudioRecorder();
   const { transcription, loading, error, transcribe } = useTranscription();
+  const [context, setContext] = useState('');
 
   // IPC: Toggle recording on event from main process
   useEffect(() => {
@@ -37,18 +36,30 @@ const App: React.FC = () => {
   // When audioBlob changes (recording stopped), trigger transcription
   useEffect(() => {
     if (audioBlob) {
-      transcribe(audioBlob);
+      transcribe(audioBlob, undefined, context);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioBlob]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>CloneWhisper 2.0</h1>
-        <RecordingIndicator isRecording={isRecording} />
+    <div className="app-bg">
+      <div className="app-card">
+        <h1 className="app-title">
+          CloneWhisper <span className="app-version">2.0</span>
+        </h1>
+        <div className="app-status-row">
+          <span className="rec-label">Rec</span>
+          <RecordingIndicator isRecording={isRecording} />
+          <span className={isRecording ? 'recording-text active' : 'recording-text'}>
+            {isRecording ? 'Recording...' : 'Press ⌘ + ⌃ + 0 to record'}
+          </span>
+        </div>
+        <ContextInput value={context} onChange={setContext} disabled={isRecording} />
+        <RecordButton
+          isRecording={isRecording}
+          onClick={isRecording ? stopRecording : startRecording}
+        />
         <TranscriptionDisplay transcription={transcription} loading={loading} error={error} />
-      </header>
+      </div>
     </div>
   );
 };

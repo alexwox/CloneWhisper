@@ -1,14 +1,21 @@
-const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1/speech-to-text';
+const OPENAI_API_URL = 'https://api.openai.com/v1/audio/transcriptions';
 
-export async function transcribeWithElevenLabs(audioBlob: Blob, apiKey: string): Promise<string> {
+export async function transcribeWithWhisper(
+  audioBlob: Blob,
+  apiKey: string,
+  prompt?: string
+): Promise<string> {
   const formData = new FormData();
-  formData.append('model_id', 'scribe_v1');
+  formData.append('model', 'whisper-1');
   formData.append('file', audioBlob, 'recording.wav');
+  if (prompt) {
+    formData.append('prompt', prompt);
+  }
 
-  const response = await fetch(ELEVENLABS_API_URL, {
+  const response = await fetch(OPENAI_API_URL, {
     method: 'POST',
     headers: {
-      'xi-api-key': apiKey,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: formData,
   });
